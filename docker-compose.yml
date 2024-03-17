@@ -1,52 +1,43 @@
 version: "3.8"
 
 services:
-    postgres:
-        image: postgres:16-alpine
+    mysql:
+        image: mysql:8
+        container_name: mysql
         restart: unless-stopped
-        container_name: team-seeker-db
         tty: true
-        ports:
-            - "5432:5432"
         environment:
-            POSTGRES_DB: ${DB_DATABASE}
-            POSTGRES_USER: ${DB_USERNAME}
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_USER=${DB_USERNAME}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+        ports:
+            - '3306:3306'
         volumes:
-            - ./storage/docker/_db:/var/lib/postgresql/data
-        networks:
-            - team-seeker-db
+            - ./backend/storage/docker/mysql:/var/lib/mysql
 
-    app:
+    backend:
         build:
-            context: ./
+            context: ./backend
             dockerfile: docker/php/Dockerfile
-        container_name: team-seeker-app
+        container_name: backend
         restart: unless-stopped
         tty: true
-        working_dir: /var/www
+        working_dir: /var/www/backend
+        ports:
+            - '9000:9000'
         volumes:
-            - ./:/var/www
-        depends_on:
-            - postgres
-        networks:
-            - team-seeker-db
-            - team-seeker-webserver
+            - ./backend:/var/www/backend
 
     nginx:
         image: nginx:stable-alpine
-        container_name: team-seeker-webserver
+        container_name: nginx
         restart: unless-stopped
         tty: true
         ports:
-            - "80:80"
+            - '80:80'
         volumes:
             - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-            - ./storage/docker/logs/nginx:/var/log/nginx/
-            - ./:/var/www
-        networks:
-            - team-seeker-webserver
-
-networks:
-    team-seeker-db:
-    team-seeker-webserver:
+            - ./nginx/logs:/var/log/nginx/
+            - ./backend:/var/www/backend
+            - ./frontend:/var/www/frontend
