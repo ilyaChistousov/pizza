@@ -2,11 +2,11 @@
 
 namespace App\Services\Product;
 
+use App\DTO\Product\GetProductDTO;
+use App\DTO\Product\NewProductDTO;
 use App\Facade\Image;
 use App\Models\Category;
 use App\Models\Product;
-use App\Services\Product\DTO\GetProductDTO;
-use App\Services\Product\DTO\NewProductDTO;
 
 class ProductService
 {

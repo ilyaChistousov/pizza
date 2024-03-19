@@ -1,9 +1,10 @@
 <?php
 
-
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Product\CategoryController;
+use App\Http\Controllers\Product\ProductController;
 use Illuminate\Support\Facades\Route;
 
-Route::apiResource('products', ProductController::class);
-Route::apiResource('categories', CategoryController::class);
+require __DIR__.'/groups/auth.php';
+require __DIR__.'/groups/product.php';
+require __DIR__.'/groups/category.php';
+require __DIR__.'/groups/user.php';

@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests\Product;
 
+use App\DTO\Product\NewProductDTO;
 use App\Enums\ProductCategory;
 use App\Enums\ProductSize;
 use App\Models\Product;
-use App\Services\Product\DTO\NewProductDTO;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
