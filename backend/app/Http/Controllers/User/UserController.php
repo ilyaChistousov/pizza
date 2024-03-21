@@ -5,25 +5,33 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Models\User;
+use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
 
+    public function __construct(
+        public UserService $service
+    )
+    {}
+
     public function index(): JsonResponse
     {
         $this->authorize('viewAny', User::class);
 
-        $users = User::all();
+        $users = $this->service->index();
 
-        return responseWithResource($users->toArray());
+        return responseWithResource($users);
     }
 
     public function show(User $user): JsonResponse
     {
         $this->authorize('view', $user);
 
-        return responseWithResource($user->toArray());
+        $user = $this->service->show($user);
+
+        return responseWithResource($user);
     }
 
     public function update(UserUpdateRequest $request, User $user): JsonResponse

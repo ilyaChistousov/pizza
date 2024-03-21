@@ -8,3 +8,4 @@ require __DIR__.'/groups/auth.php';
 require __DIR__.'/groups/product.php';
 require __DIR__.'/groups/category.php';
 require __DIR__.'/groups/user.php';
+require __DIR__.'/groups/orders.php';

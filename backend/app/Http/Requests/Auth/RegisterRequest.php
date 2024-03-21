@@ -22,7 +22,7 @@ class RegisterRequest extends FormRequest
 
     public function dto(): NewUserDTO {
         $data = $this->validated();
-        $data->password = Hash::make($data->password);
+        $data['password'] = Hash::make($data['password']);
         return NewUserDTO::from($data);
     }
 }
