@@ -28,6 +28,6 @@ Route::controller(ResetPasswordController::class)->group(function () {
             ->name('password.email');
 
         Route::post('/reset-password', 'reset')
-            ->name('password.store');
+            ->name('password.stores');
     });
 });

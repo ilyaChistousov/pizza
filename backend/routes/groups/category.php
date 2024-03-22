@@ -5,7 +5,7 @@ use App\Http\Controllers\Product\CategoryController;
 Route::controller(CategoryController::class)->group(function () {
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('/categories', 'store')
-            ->name('categories.store');
+            ->name('categories.stores');
         Route::put('/categories/{category}', 'update')
             ->name('categories.update');
         Route::delete('/categories/{category}', 'destroy')

@@ -1,9 +1,11 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Header from "./components/header/HeaderApp.vue";
+import ProductList from "./components/product-list/ProductList.vue";
 </script>
 
 <template>
-  <HelloWorld/>
+  <Header/>
+  <ProductList/>
 </template>
 
 <style scoped>

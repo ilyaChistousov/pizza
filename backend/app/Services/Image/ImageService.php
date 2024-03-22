@@ -12,4 +12,14 @@ class ImageService
         $imagePath = $image->storePublicly($path);
         return config('app.url') . Storage::url($imagePath);
     }
+
+    public function saveTestImage(
+        string $pathToImage = 'tests/storage/images/Peperonni.jpg',
+        string $storagePath = 'public/images/products'): string
+    {
+        $fileName = basename($pathToImage);
+        $destinationPath = $storagePath . '/' . $fileName;
+        Storage::put($destinationPath, file_get_contents( base_path() . '/' . $pathToImage));
+        return config('app.url') . Storage::url($destinationPath);
+    }
 }

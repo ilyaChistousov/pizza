@@ -6,7 +6,7 @@ use App\Http\Controllers\Product\ProductController;
 Route::middleware('auth:sanctum')->group(function () {
     Route::controller(ProductController::class)->group(function () {
        Route::post('/products', 'store')
-           ->name('products.store');
+           ->name('products.stores');
        Route::put('/products/{product}', 'update')
            ->name('products.update');
        Route::delete('/products/{product}', 'destroy')
@@ -15,7 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::controller(CategoryController::class)->group(function () {
         Route::post('/categories', 'store')
-            ->name('categories.store');
+            ->name('categories.stores');
         Route::put('/categories/{category}', 'update')
             ->name('categories.update');
         Route::delete('/categories/{category}', 'destroy')

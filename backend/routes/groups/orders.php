@@ -5,7 +5,7 @@ use App\Http\Controllers\Order\OrderController;
 
 Route::controller(OrderController::class)->prefix('orders')->group(function () {
     Route::post('', 'store')
-        ->name('orders.store');
+        ->name('orders.stores');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::get('', 'index')
