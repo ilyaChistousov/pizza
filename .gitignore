@@ -2,3 +2,5 @@
 /nginx
 /.node-modules
 /node-modules
+package.json
+package-lock.json
