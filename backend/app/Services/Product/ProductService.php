@@ -7,6 +7,7 @@ use App\DTO\Product\NewProductDTO;
 use App\Facade\Image;
 use App\Models\Category;
 use App\Models\Product;
+use Illuminate\Http\UploadedFile;
 
 class ProductService
 {
@@ -56,7 +57,9 @@ class ProductService
     function update(NewProductDTO $dto, Product $product): void
     {
         $newData = $dto->except('price, image')->toArray();
-        $newData['image'] = Image::savePublicly($dto->image);
+        if ($dto->image instanceof UploadedFile) {
+            $newData['image'] = Image::savePublicly($dto->image);
+        }
 
         $product->update($newData);
 

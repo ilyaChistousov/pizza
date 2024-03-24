@@ -4,9 +4,8 @@
 
 @layer base {
     body {
-        @apply
-        w-full
-        px-60
+        @apply max-w-7xl
+        mx-auto;
     }
 }
 

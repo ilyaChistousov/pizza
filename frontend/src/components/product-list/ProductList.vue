@@ -2,8 +2,11 @@
 import {useProductStore} from "../../stores/ProductStore.js";
 import {computed, onBeforeUnmount, onMounted, ref} from "vue";
 import ProductCard from "./ProductCard.vue";
+import {useRouter} from "vue-router";
 
+const router = useRouter()
 const productStore = useProductStore();
+const groupedProducts = computed(() => productStore.getProducts)
 
 onMounted(() => {
   productStore.fetchProducts()
@@ -14,57 +17,45 @@ onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
 })
 
-const groupedProducts = computed(() => {
-  const renamedCategories = {
-    'pizza': 'Пиццы',
-    'drink': 'Напитки',
-
-  }
-  const grouped = {}
-  productStore.products.forEach(product => {
-    const category = renamedCategories[product.category] || product.category
-    if (!grouped[category]) {
-      grouped[category] = {name: category, products: []}
-    }
-    grouped[category].products.push(product)
-  })
-  return grouped
-})
-
 const isSticky = ref(false);
-
+const categoryRefs = ref([]);
 const handleScroll = () => {
   isSticky.value = window.scrollY > 0;
 }
 
-const scrollToCategory = (index) => {
-  const categoryRef = this.$refs['categoryRef'][index];
+function scrollToCategory(index) {
+  const categoryRef = categoryRefs.value[index];
   if (categoryRef) {
-    categoryRef.scrollIntoView({behavior: 'smooth'});
+    const y = categoryRef.getBoundingClientRect().top + window.scrollY - 73;
+    window.scrollTo({top: y, behavior: 'smooth'});
   }
 }
+const toCart = () => {
+  router.push('cart')
+}
+
 </script>
 
 <template>
   <div class="flex flex-col">
-    <div :class="{'sticky top-0 bg-white border-b bg-opacity-90 shadow-md border-gray-200': isSticky}"
-         class="flex justify-between px-4 py-4 z-40 backdrop-blur-lg items-center">
+    <div :class="{'sticky top-0': isSticky}"
+         class="flex justify-between px-4 py-4 z-40 backdrop-blur-lg items-center ">
       <div class="flex bg-transparent gap-3 text-center">
-        <div v-for="(category, index) in groupedProducts" :key="index" >
+        <div v-for="(category, index) in groupedProducts" :key="index">
           <button @click="scrollToCategory(index)" class="text-gray-800 hover:text-orange-500 font-semibold">{{
               category.name
             }}
           </button>
         </div>
       </div>
-      <button class="mt-auto px-4 py-2 bg-orange-500 text-white font-semibold rounded-full
+      <button @click="toCart" class="mt-auto px-4 py-2 bg-orange-500 text-white font-semibold rounded-full
           hover:bg-orange-600 hover:text-white">
         Корзина
       </button>
     </div>
     <div class="flex-grow">
       <div v-for="(category, index) in groupedProducts" :key="index">
-        <h2 class="text-4xl font-semibold text-gray-800 my-16">{{ category.name }}</h2>
+        <h2 ref="categoryRefs" :id="index" class="text-4xl font-semibold text-gray-800 my-16">{{ category.name }}</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
           <ProductCard v-for="product in category.products" :key="product.id" :product="product"/>
         </div>
@@ -74,7 +65,4 @@ const scrollToCategory = (index) => {
 </template>
 
 <style>
-.sticky-container {
-  border-bottom: 1px solid #ccc;
-}
 </style>

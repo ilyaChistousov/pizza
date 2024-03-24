@@ -27,7 +27,7 @@ class AuthController extends Controller
     {
         $this->service->register($request);
 
-        return responseOk();
+        return responseWithResource(['id' => Auth::user()->id]);
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -36,7 +36,7 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        return response()->json(Session::getId());
+        return responseWithResource(['id' => Auth::user()->id]);
     }
 
     public function logout(Request $request): Response

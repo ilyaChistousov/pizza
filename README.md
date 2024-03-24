@@ -21,4 +21,15 @@ docker-compose exec app key:generate
 
 ### 2) Frontend
 
-#### Coming soon...
+1) Go to frontend folder
+```
+cd frontend
+```
+2) Install dependencies
+```
+npm install
+```
+3) Run
+```
+npm run dev
+```

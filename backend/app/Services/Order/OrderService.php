@@ -7,6 +7,7 @@ use App\DTO\Order\NewOrderDTO;
 use App\DTO\Product\PivotProductDTO;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\User;
 
 class OrderService
 {
@@ -26,7 +27,7 @@ class OrderService
             return DetailedOrderDTO::from($order);
         });
 
-        return ['products' => $mapped->toArray()];
+        return $mapped->toArray();
     }
 
     public function store(NewOrderDTO $dto)
@@ -40,6 +41,12 @@ class OrderService
                 'size' => $product['size'],
                 'price' => $product['price'],
             ]);
+        }
+
+        $user = User::query()->where('phone', $dto->phone)->first();
+        if ($user) {
+            $newOrder->user_id = $user->id;
+            $newOrder->save();
         }
     }
 }

@@ -1,6 +1,8 @@
 <script setup>
 import {ref} from "vue";
-
+import {useRoute, useRouter} from "vue-router";
+const route = useRoute();
+const router =useRouter()
 const props = defineProps({
   product: {
     type: Object,
@@ -12,13 +14,17 @@ const props = defineProps({
 
 const isHovering = ref(false);
 
-const click = () => {
-  console.log('clicked')
-}
+const openDetails = () => router.push({
+  name: 'product',
+  params: {
+    id: props.product.id
+  }
+})
+
 </script>
 
 <template>
-  <div @click="click"
+  <div @click="openDetails"
        @mouseenter="isHovering = true"
        @mouseleave="isHovering = false"
        :class="{'cursor-pointer': isHovering}"

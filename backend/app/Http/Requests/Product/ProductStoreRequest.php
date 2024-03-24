@@ -3,7 +3,6 @@
 namespace App\Http\Requests\Product;
 
 use App\DTO\Product\NewProductDTO;
-use App\Enums\ProductCategory;
 use App\Enums\ProductSize;
 use App\Models\Product;
 use Illuminate\Foundation\Http\FormRequest;
