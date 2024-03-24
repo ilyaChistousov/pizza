@@ -1,22 +1,24 @@
 ## Installation
 ### 1) Backend
-1) Copy .env.example
+1) Go to backend folder
+```
+cd backend
+```
+2) Copy .env.example
 ```
 cp .env.example .env
 ```
-2) Add db host user password to .env
-
 3) Run docker services
 ```
-docker-compose up --env-file ./backend/.env -d --build
+docker-compose up -d --build
 ```
 4) Install dependencies
 ```
-docker-compose exec app composer install
+docker-compose exec backend composer install
 ```
 5) Create token
 ```
-docker-compose exec app key:generate
+docker-compose exec backend php artisan key:generate
 ```
 
 ### 2) Frontend
